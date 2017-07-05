@@ -15,7 +15,7 @@ from django.utils.translation import ugettext_lazy
 ##############################
 
 # Used everywhere, so ... set it up top.
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 
@@ -287,8 +287,8 @@ USE_I18N = True
 USE_L10N = False
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY_FILE = os.path.join(USER_DATA_ROOT, "secretkey.txt"
-)
+SECRET_KEY_FILE = os.path.join(USER_DATA_ROOT, "secretkey.txt")
+
 try:
     with open(SECRET_KEY_FILE) as f:
         SECRET_KEY = f.read()
@@ -330,24 +330,26 @@ INSTALLED_APPS = [
     'kalite.inline',
     'kalite.i18n',
     'kalite.control_panel',
+    'kalite.demo',
 ]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'kalite.i18n.middleware.SessionLanguage',
     'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'fle_utils.django_utils.middleware.GetNextParam',
+    'kalite.i18n.middleware.SessionLanguage',
     'kalite.facility.middleware.AuthFlags',
     'kalite.facility.middleware.FacilityCheck',
     'securesync.middleware.RegisteredCheck',
     'securesync.middleware.DBCheck',
-    'django.middleware.common.CommonMiddleware',
     'kalite.distributed.middleware.LockdownCheck',
     'kalite.distributed.middleware.LogRequests',
-    'django.middleware.gzip.GZipMiddleware',
     'kalite.distributed.middleware.SessionIdleTimeout'
 ]
 
