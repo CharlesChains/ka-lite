@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
 from django.http import (HttpResponse, HttpResponseRedirect,
                          HttpResponseServerError)
@@ -30,7 +31,7 @@ def prepare_django_request(request):
     }
     return result
 
-
+@csrf_exempt
 def index(request):
     req = prepare_django_request(request)
     auth = init_saml_auth(req)

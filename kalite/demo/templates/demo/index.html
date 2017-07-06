@@ -14,7 +14,10 @@
 {% endif %}
 
 {% if not_auth_warn %}
-  <div class="alert alert-danger" role="alert">Not authenticated</div>
+  <div class="alert alert-danger"
+       role="alert">
+    Not authenticated
+  </div>
 {% endif %}
 
 {% if success_slo %}
@@ -43,7 +46,8 @@
   {% endif %}
   <a href="{% url "index" %}?slo" class="btn btn-danger">Logout</a>
 {% else %}
-  <a href="{% url "index" %}?sso" class="btn btn-primary">Login</a> <a href="{% url "index" %}?sso2" class="btn btn-info">Login and access to attrs page</a>
+  <a href="{% url "index" %}?sso" class="btn btn-primary">Login</a>
+  <a href="{% url "index" %}?sso2" class="btn btn-info">Login and access to attrs page</a>
 {% endif %}
 
 {% endblock %}
