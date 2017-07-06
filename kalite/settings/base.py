@@ -457,7 +457,8 @@ SESSION_IDLE_TIMEOUT = 0
 
 
 # TODO(benjaoming): Use reverse_lazy for this sort of stuff
-LOGIN_URL = "/?login=true"
+#LOGIN_URL = "/?login=true"
+LOGIN_URL = "/demo"
 LOGOUT_URL = "/securesync/api/user/logout/"
 
 # 18 threads seems a sweet spot
@@ -483,6 +484,9 @@ from securesync.settings import *
 from fle_utils.chronograph.settings import *
 from kalite.facility.settings import *
 from kalite.main.settings import *
+
+# Load seeting from demo
+from kalite.demo.settings import *
 
 # Import from applications with problematic __init__.py files
 from kalite.legacy.i18n_settings import *
