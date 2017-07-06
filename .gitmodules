@@ -1,0 +1,3 @@
+[submodule "python-saml"]
+	path = python-saml
+	url = https://github.com/onelogin/python-saml.git

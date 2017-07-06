@@ -104,3 +104,6 @@ writeup/
 ghostdriver.log
 *.swp
 file_map.json
+
+# Latest version
+ka-lite-0.17.1/
