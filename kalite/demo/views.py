@@ -97,7 +97,7 @@ def index(request):
         if len(request.session['samlUserdata']) > 0:
             attributes = request.session['samlUserdata'].items()
 
-    return render_to_response('index.html',
+    return render_to_response('demo/index.html',
                               {'errors': errors,
                                'not_auth_warn': not_auth_warn,
                                'success_slo': success_slo,
@@ -115,7 +115,7 @@ def attrs(request):
         if len(request.session['samlUserdata']) > 0:
             attributes = request.session['samlUserdata'].items()
 
-    return render_to_response('attrs.html',
+    return render_to_response('demo/attrs.html',
                               {'paint_logout': paint_logout,
                                'attributes': attributes},
                               context_instance=RequestContext(request))
