@@ -14,6 +14,7 @@ from onelogin.saml2.utils import OneLogin_Saml2_Utils
 from kalite.facility.decorators import facility_from_request
 from kalite.facility.models import FacilityUser
 from securesync.models import Device, Zone
+import pdb
 
 
 def get_user_from_request(handler=None, request=None, *args, **kwargs):
@@ -27,6 +28,8 @@ def get_user_from_request(handler=None, request=None, *args, **kwargs):
     def get_user_from_request_wrapper_fn(request, *args, **kwargs):
         user = get_object_or_None(FacilityUser, id=request.REQUEST["user"]) if "user" in request.REQUEST else None  # don't hit DB if we don't have to
         user = user or request.session.get("facility_user")
+        user = user or request.session.get("kalite_user_data")
+        #Kalite_user_data is used for pysaml logins. It is a dict containing all user data necesary to authenticate him.
         return handler(request, *args, user=user, **kwargs)
     return get_user_from_request_wrapper_fn if not request else get_user_from_request_wrapper_fn(request=request, *args, **kwargs)
 
@@ -34,7 +37,7 @@ def require_login(handler):
     """
    (Level 1) Make sure that a user is logged in to the distributed server.
     """
-    """"#Replaced with PySaml authentication
+    #Replaced with PySaml authentication
     def require_login_wrapper_fn(request, *args, **kwargs):
         if getattr(request, "is_logged_in", False):  # requires the securesync.middleware.AuthFlags middleware be hit
             return handler(request, *args, **kwargs)
@@ -72,7 +75,7 @@ def require_login(handler):
         auth = OneLogin_Saml2_Auth(req, custom_base_path=settings.SAML_FOLDER)
         auth.login()
         auth.build_request_signature(req,"http://0.0.0.0:8008")
-        import pdb;
+
         pdb.set_trace()
         auth.process_respgonse(req)
         errors = auth.get_errors()
@@ -90,7 +93,7 @@ def require_login(handler):
         else:
             print "Error when processing SAML Response: %s" % (', '.join(errors))
     return require_login_wrapper_fn
-
+        """
 
 def require_admin(handler):
     """

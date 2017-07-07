@@ -8,13 +8,13 @@ from django.template import RequestContext
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.settings import OneLogin_Saml2_Settings
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
-
+from django.views.decorators.csrf import csrf_exempt
 
 def init_saml_auth(req):
     auth = OneLogin_Saml2_Auth(req, custom_base_path=settings.SAML_FOLDER)
     return auth
 
-
+@csrf_exempt
 def prepare_django_request(request):
     # If server is behind proxys or balancers use the HTTP_X_FORWARDED fields
     result = {
@@ -30,7 +30,7 @@ def prepare_django_request(request):
     }
     return result
 
-
+@csrf_exempt
 def index(request):
     req = prepare_django_request(request)
     auth = init_saml_auth(req)
@@ -77,6 +77,8 @@ def index(request):
             request.session['samlUserdata'] = auth.get_attributes()
             request.session['samlNameId'] = auth.get_nameid()
             request.session['samlSessionIndex'] = auth.get_session_index()
+            request.session['kalite_user_data'] = auth.get_attribute("kalite_user_data")
+
             if 'RelayState' in req['post_data'] and OneLogin_Saml2_Utils.get_self_url(req) != req['post_data']['RelayState']:
                 return HttpResponseRedirect(auth.redirect_to(req['post_data']['RelayState']))
     elif 'sls' in req['get_data']:
