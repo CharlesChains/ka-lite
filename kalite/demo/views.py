@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
 from django.http import (HttpResponse, HttpResponseRedirect,
                          HttpResponseServerError)
