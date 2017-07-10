@@ -29,3 +29,11 @@ RESTRICTED_TEACHER_PERMISSIONS = False  # setting this to True will disable crea
 # Setting this to True will eliminate the need for password authentication for student accounts
 # Further, it will provide an autocomplete for any student account on typing.
 SIMPLIFIED_LOGIN = False
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+SAML_FOLDER = os.path.join(BASE_DIR, 'saml')
+
+LOGIN_URL = '/sp/sso/login/'
+SAML2IDP_SIGNING = True
+SAML2IDP_PRIVATE_KEY_FILE = os.path.join(SAML_FOLDER, 'private-key.pem')
+SAML2IDP_CERTIFICATE_FILE = os.path.join(SAML_FOLDER, 'certificate.pem')

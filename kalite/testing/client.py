@@ -3,10 +3,15 @@ import json
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import Client
+from django.http import (HttpResponse, HttpResponseRedirect,
+                         HttpResponseServerError)
 
 from kalite.facility.models import FacilityUser
 from kalite.facility.api_resources import FacilityUserResource
 
+from onelogin.saml2.auth import OneLogin_Saml2_Auth
+from onelogin.saml2.settings import OneLogin_Saml2_Settings
+from onelogin.saml2.utils import OneLogin_Saml2_Utils
 
 logging = settings.LOG
 
@@ -36,6 +41,8 @@ class KALiteClient(Client):
         pass
 
     def login(self, username, password, facility=None):
+        """
+               #Old user login, previous to PySAML
         self.get(self.status_url)
         data = {
             "csrfmiddlewaretoken": self.cookies["csrftoken"].value,
@@ -45,8 +52,47 @@ class KALiteClient(Client):
         }
         response = self.post_json(self.login_url, data=data)
         return response.status_code == 200
+         """
+        #Old user login, previous to PySAML
+
+        data = {
+            "csrfmiddlewaretoken": self.cookies["csrftoken"].value,
+            "facility": facility,
+            "username": username,
+            "password": password,
+        }
+        if facility:
+            data['facility'] = facility.id
+        elif not facility and self.facility:
+            data['facility'] = self.facility.id
+        elif data['facility']:
+            data['facility'] = data['facility'].id
+        else:
+            data['facility'] = None
+        req = self.prepare_django_request(data)
+        auth = OneLogin_Saml2_Auth(req)
+        auth.process_response()
+        errors = auth.get_errors()
+        return HttpResponseRedirect(auth.login())
+
+
+    def prepare_django_request(request):
+        result = {
+            'https': 'on' if request.is_secure() else 'off',
+            'http_host': request.META['HTTP_HOST'],
+            'script_name': request.META['PATH_INFO'],
+            'server_port': request.META['SERVER_PORT'],
+            'get_data': request.GET.copy(),
+            'post_data': request.POST.copy(),
+            # Uncomment if using ADFS as IdP, https://github.com/onelogin/python-saml/pull/144
+            # 'lowercase_urlencoding': True,
+            'query_string': request.META['QUERY_STRING']
+        }
+        return result
 
     def login_user(self, data, facility=None, use_default_facility=True, follow=True):
+        """
+        #Old user login, previous to PySAML
         if facility:
             data['facility'] = facility.id
         elif use_default_facility and self.facility:
@@ -57,6 +103,22 @@ class KALiteClient(Client):
             data['facility'] = None
         response = self.post_json(self.login_url, data=data)
         return response
+
+        """
+        if facility:
+            data['facility'] = facility.id
+        elif use_default_facility and self.facility:
+            data['facility'] = self.facility.id
+        elif data['facility']:
+            data['facility'] = data['facility'].id
+        else:
+            data['facility'] = None
+        req = self.prepare_django_request(data)
+        auth = OneLogin_Saml2_Auth(req)
+        auth.process_response()
+        errors = auth.get_errors()
+        return HttpResponseRedirect(auth.login())
+
 
     def login_teacher(self, data=None, facility=None, use_default_facility=True, follow=True):
         if not data:

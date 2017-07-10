@@ -1,0 +1,30 @@
+{
+    "strict": true,
+    "debug": true,
+    "sp": {
+        "entityId": "http://bs-dev.onelogin.com",
+        "assertionConsumerService": {
+            "url": "http://bs-dev.onelogin.com/",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+        },
+        "singleLogoutService": {
+            "url": "http://bs-dev.onelogin.com/",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
+        "x509cert": "",
+        "privateKey": ""
+    },
+    "idp": {
+        "entityId": "https://app.onelogin.com/saml/metadata/673457",
+        "singleSignOnService": {
+            "url": "https://bs-dev.onelogin.com/trust/saml2/http-post/sso/673457",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "singleLogoutService": {
+            "url": "https://bs-dev.onelogin.com/trust/saml2/http-redirect/slo/673457",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "x509cert": "MIIECDCCAvCgAwIBAgIUVxLWlcd98bIkZCOysTOgMh/YJ8UwDQYJKoZIhvcNAQEFBQAwUzELMAkGA1UEBhMCVVMxCzAJBgNVBAoMAkJTMRUwEwYDVQQLDAxPbmVMb2dpbiBJZFAxIDAeBgNVBAMMF09uZUxvZ2luIEFjY291bnQgMTA5MTA2MB4XDTE3MDYyMDE3MzIyNVoXDTIyMDYyMTE3MzIyNVowUzELMAkGA1UEBhMCVVMxCzAJBgNVBAoMAkJTMRUwEwYDVQQLDAxPbmVMb2dpbiBJZFAxIDAeBgNVBAMMF09uZUxvZ2luIEFjY291bnQgMTA5MTA2MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwcsvu67F5TorB6LN7Z+PAnRt9Xuf4TJfjt5w2G1QE3aZu8knFzrLI6m9slJZ/Hry8VDeoubfJX8tZSaSAIxGTr3cdsnfaOwagfhpR7PLamWjBZlXUzWt0slb8MfoUONxOkX7JrnBf4HMKKqWS7+S1WkKvgHr0ENXRFP75hEVotihNqgjz5uSgrKeGlVDdL3BO4ByqgbXKLivwOMe5jxaVAo+niTrIYrMzt2pmTGhexxnU22OMIpjbHv+kZfKjlZdoagkrF/GcPd4uTNmxslvaKLiUkedgIJtTMxlRCEjFHFS9LaytFPwXrVKybvoVTohWO13sLNRz6AeyhC5VaJEuQIDAQABo4HTMIHQMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFHNWoqWr7/JHW83qdERbmnaCe1ymMIGQBgNVHSMEgYgwgYWAFHNWoqWr7/JHW83qdERbmnaCe1ymoVekVTBTMQswCQYDVQQGEwJVUzELMAkGA1UECgwCQlMxFTATBgNVBAsMDE9uZUxvZ2luIElkUDEgMB4GA1UEAwwXT25lTG9naW4gQWNjb3VudCAxMDkxMDaCFFcS1pXHffGyJGQjsrEzoDIf2CfFMA4GA1UdDwEB/wQEAwIHgDANBgkqhkiG9w0BAQUFAAOCAQEAZ7NXMgUva0Pd5le7qmJaso46mWK8qeYgtEBXfeAK1tmQS9nKkC3qRco8Pn5TBuvaKToLkbNXwZUUMTOvB7cTuv8bTRQM8sTNAg1PpD5Q8fAMJly0ioSqH11PNc9ejfBAtNDpGyUxkhZv107+G2rIRwwa3pQldOqINsFf+RRR02mqsW/t6195JVqtHBjCampX0cilZbW/g+qjv3B9KW69jWSMlcytprcXSskCaSbwpyodtf65254U5RXzXrBl33DsDaa1nTVL5Q1Z+KgGOv7wp8NyXf37sn6OnAE7aQjeKEPxsoGVEMUOZnqfgJOE10NYLW9LkCnTvp4DKHjAiY7fxQ=="
+    }
+}

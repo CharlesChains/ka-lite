@@ -86,7 +86,7 @@ man:
 
 assets:
 	npm install --production
-	node build.js
+	npm run build
 	KALITE_HOME=.kalite_dist_tmp bin/kalite manage syncdb --noinput
 	KALITE_HOME=.kalite_dist_tmp bin/kalite manage migrate
 	rm -rf kalite/database/templates/
