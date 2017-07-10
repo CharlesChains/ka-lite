@@ -10,6 +10,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.http.response import HttpResponsePermanentRedirect, HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
 
 from . import api_urls
 import kalite.dynamic_assets.urls
@@ -23,6 +24,13 @@ import securesync.urls
 from kalite.contentload import settings as contentload_settings
 
 admin.autodiscover()
+
+urlpatterns = patterns(
+    __package__ + '.views',
+    url(r'^$', 'index', name='index'),
+    url(r'^attrs/$', 'attrs', name='attrs'),
+    url(r'^metadata/$', 'metadata', name='metadata'),
+)
 
 
 urlpatterns = patterns('',
@@ -38,8 +46,9 @@ urlpatterns += patterns('',
 )
 
 # For py-saml
+from .views import index, attrs, metadata
 urlpatterns += patterns('',
-    url(r'^demo/', include(kalite.demo.urls)),
+    url(r'^demo/', include(kalite.demo.urls))
 )
 
 # Teaching / admin patterns

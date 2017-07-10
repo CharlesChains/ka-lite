@@ -28,7 +28,17 @@ def get_user_from_request(handler=None, request=None, *args, **kwargs):
     def get_user_from_request_wrapper_fn(request, *args, **kwargs):
         user = get_object_or_None(FacilityUser, id=request.REQUEST["user"]) if "user" in request.REQUEST else None  # don't hit DB if we don't have to
         user = user or request.session.get("facility_user")
-        user = user or request.session.get("kalite_user_data")
+
+        with open("/home/charlo/userdata.txt",'w') as File:
+            file.write(user)
+        with open("/home/charlo/facility_user.txt",'w') as File:
+            file.write(request.session.get("facility_user"))
+
+        #user = user or request.session.get("kalite_user_data")
+        import pdb
+        pdb.set_trace()
+        pdb.set_trace(user)
+        pdb.set_trace(request)
         #Kalite_user_data is used for pysaml logins. It is a dict containing all user data necesary to authenticate him.
         return handler(request, *args, user=user, **kwargs)
     return get_user_from_request_wrapper_fn if not request else get_user_from_request_wrapper_fn(request=request, *args, **kwargs)

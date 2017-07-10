@@ -93,7 +93,7 @@ class FacilityUserResource(ModelResource):
         logout(request)
 
         data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
-
+        #TODO: instanciar el usuario como objeto de clase FacilityUser.objects.filter
         username = data.get('username', '')
         password = data.get('password', '')
         facility = data.get('facility', '')

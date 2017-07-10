@@ -72,8 +72,6 @@ def index(request):
         auth.process_response(request_id=request_id)
         errors = auth.get_errors()
         not_auth_warn = not auth.is_authenticated()
-        import exceptions
-        raise exceptions.Exception
         if not errors:
             if 'AuthNRequestID' in request.session:
                 del request.session['AuthNRequestID']
@@ -81,6 +79,10 @@ def index(request):
             request.session['samlNameId'] = auth.get_nameid()
             request.session['samlSessionIndex'] = auth.get_session_index()
             request.session['kalite_user_data'] = auth.get_attribute("kalite_user_data")
+            from ..facility.models import FacilityUser
+
+            user = FacilityUser()
+            request.session['facility_ueser'] = user
 
             #with open("/home/charlo/facility_user.txt", 'w') as File:
             #    file.write(request.session.get("facility_user"))
@@ -89,8 +91,6 @@ def index(request):
             # TODO: instanciar el usuario como objeto de clase Facility.Model.FacilityUser.objects.filter
             #with open("/home/charlo/facility_user.txt",'w') as File:
             #   file.write(request.session['kalite_user_data'])
-        else:
-            return HttpResponseServerError(content=', '.join(errors))
 
             if 'RelayState' in req['post_data'] and OneLogin_Saml2_Utils.get_self_url(req) != req['post_data']['RelayState']:
                 return HttpResponseRedirect(auth.redirect_to(req['post_data']['RelayState']))
@@ -111,34 +111,11 @@ def index(request):
         paint_logout = True
         if len(request.session['samlUserdata']) > 0:
             attributes = request.session['samlUserdata'].items()
-    from ..facility.views import index
-    return index(request)
-
-def attrs(request):
-    paint_logout = False
-    attributes = False
-
-    if 'samlUserdata' in request.session:
-        paint_logout = True
-        if len(request.session['samlUserdata']) > 0:
-            attributes = request.session['samlUserdata'].items()
-
-    return render_to_response('demo/attrs.html',
-                              {'paint_logout': paint_logout,
-                               'attributes': attributes},
+    from django.shortcuts import render
+    return render(request, '/',
+                              {'errors': errors,
+                               'not_auth_warn': not_auth_warn,
+                               'success_slo': success_slo,
+                               'attributes': attributes,
+                               'paint_logout': paint_logout},
                               context_instance=RequestContext(request))
-
-
-def metadata(request):
-    # req = prepare_django_request(request)
-    # auth = init_saml_auth(req)
-    # saml_settings = auth.get_settings()
-    saml_settings = OneLogin_Saml2_Settings(settings=None, custom_base_path=settings.SAML_FOLDER, sp_validation_only=True)
-    metadata = saml_settings.get_sp_metadata()
-    errors = saml_settings.validate_metadata(metadata)
-
-    if len(errors) == 0:
-        resp = HttpResponse(content=metadata, content_type='text/xml')
-    else:
-        resp = HttpResponseServerError(content=', '.join(errors))
-    return resp
