@@ -99,9 +99,6 @@ def index(request):
             request.session['samlNameId'] = auth.get_nameid()
             request.session['samlSessionIndex'] = auth.get_session_index()
             request.session['kalite_user_data'] = auth.get_attribute("kalite_user_data")
-            import json
-            with open("/home/charlo/facility_user.json", 'w') as f:
-                f.write(json.dumps(request.session.get("facility_user")))
             request.session['user'] = {"is_admin": True, "is_logged_in": True, "is_teacher": True, "is_superuser": True,
                                        "facility_user": "CharlO"}
 

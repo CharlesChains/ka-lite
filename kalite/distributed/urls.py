@@ -33,7 +33,8 @@ urlpatterns = patterns(
 )
 
 
-urlpatterns = patterns('',
+
+urlpatterns += patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^images/.*$', lambda request: HttpResponseRedirect(settings.STATIC_URL[:-1] + request.path)),
     url(r'^favicon.ico/?$', lambda request: HttpResponsePermanentRedirect(settings.STATIC_URL + "images/distributed/" + request.path)),
@@ -48,7 +49,8 @@ urlpatterns += patterns('',
 # For py-saml
 from .views import index, attrs, metadata
 urlpatterns += patterns('',
-    url(r'^demo/', include(kalite.demo.urls))
+    url(r'^demo/', include(kalite.demo.urls)),
+    url(r'^/index.html', __package__ + '.views.homepage')
 )
 
 # Teaching / admin patterns

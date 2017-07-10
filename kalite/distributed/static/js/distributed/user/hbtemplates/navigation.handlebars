@@ -7,7 +7,7 @@
 {{!-- Login --}}
 {{#unless is_logged_in}}
   <li role="menuitem"><a href="#" data-toggle="modal" data-target="#loginModal" id="nav_login">{{_ "Old Login" }}</a></li>
-  <li role="menuitem"><a href="{{ url "index" }}?sso" id="nav_login">{{_ "Loooooooogin" }}</a></li>
+  <li role="menuitem"><a href="{{ url "index" }}?sso" id="nav_login">{{_ "Login" }}</a></li>
 {{/unless}}
 
 {{#if is_admin}}
